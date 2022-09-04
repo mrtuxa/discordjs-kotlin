@@ -1,10 +1,13 @@
+package util
+
 import kotlin.js.Date
 import kotlin.js.Promise
 
 @JsModule("discord.js")
 external class Discord {
-
     companion object {
+        fun Client(intents: Int): Discord.Client
+
         val version: String
     }
 
@@ -14,36 +17,35 @@ external class Discord {
 
         fun getFile(): Any
         fun getName(): String
-
         fun setAttachment(file: Any, name: String?): Attachment
         fun setFile(file: Any): Attachment
         fun setName(name: String): Attachment
     }
 
-    open class Channel {
-        val client: Client
-        val createdAt: Date
-        val createdTimestamp: Number
-        val deleted: Boolean
-        val id: String
-        val type: String
+   open class Channel {
+       val client: Client
+       val createdAt: Date
+       val createdTimestamp: Number
+       val deleted: Boolean
+       val id: String
+       val type: String
 
-        fun delete(): Promise<Channel>
-    }
+       fun delete(): Promise<Channel>
+   }
 
-    class CategoryChannel : GuildChannel
+   class CategoryChannel : GuildChannel
 
-    class Client {
-        val channels: Collection<String, Channel>
-        val guilds: Collection<String, Guild>
-        val user: ClientUser
-        val users: Collection<String, User>
-        val ping: Number
+   class Client(param: (Any) -> Unit, intents: Int) {
+       val channels: Collection<String, Channel>
+       val guilds: Collection<String, Guild>
+       val user: ClientUser
+       val users: Collection<String, User>
+       val ping: Number
 
-        fun destroy(): Promise<*>
-        fun login(token: String): Promise<String>
-        fun on(event: String, cb: (item: dynamic) -> Unit)
-    }
+       fun destroy(): Promise<*>
+       fun login(token: String): Promise<String>
+       fun on(event: String, cb: (item: dynamic) -> Unit)
+   }
 
     class ClientUser : User {
         fun setPresence(data: dynamic): Promise<ClientUser>
@@ -216,6 +218,7 @@ external class Discord {
         fun edit(data: JSON): Promise<GuildMember>
     }
 
-    // Things that can be resolved
     interface UserResolvable
 }
+
+external val process: Process

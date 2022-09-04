@@ -6,3 +6,4 @@ web/
 bot/
 config.json
 mandroc-eval.js
+gradle/
